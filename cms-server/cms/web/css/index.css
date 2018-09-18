@@ -1,0 +1,21 @@
+@charset "utf-8";
+button {
+    width: 4rem;
+    height: 1.5rem;
+    color: #01d1ff;
+    border: 1px solid #48d3fa;
+    font-size: 0.6rem;
+    line-height: 1.5rem;
+    text-align: center;
+    background: #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    webkit-touch-callout:none;
+    outline: none;
+}
+
+h6{
+    text-align: center;
+}

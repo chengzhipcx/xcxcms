@@ -1,0 +1,90 @@
+.container{
+   height: 1500rpx;
+}
+.activity{
+  width: 750rpx;
+  height: 360rpx;
+}
+.activity image{
+  width: 750rpx;
+  height: 360rpx;
+}
+.top-tab{
+  width: 750rpx;
+  height: 88rpx;
+  background: #f2f2f2;
+  color: #000;
+  font-size: 35rpx;
+  line-height: 88rpx;
+}
+.top-tab .active{
+  color: #21b100;
+}
+.notify-item{
+  width: 700rpx;
+  padding: 30rpx 0 20rpx 0;
+  margin-left: 20rpx;
+  margin-right: 30rpx;
+  border-bottom: 1px solid #e2e2e2;
+}
+.notify-item .avatar{
+  flex: 1;
+}
+.notify-item image{
+  width: 160rpx;
+  height: 120rpx;
+}
+.notify-item .notify-content{
+  flex: 3;
+  text-align: left;
+}
+.notify-item .notify-content text{
+  display: block;
+}
+.notify-item .notify-content .notify-title{
+  color: #000;
+  font-size: 32rpx;
+  line-height: 50rpx;
+  font-weight: 400;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  margin-left: 20rpx;
+  padding-bottom: 5rpx;
+}
+.notify-item .notify-content  .notity-detail{
+  color: #999;
+  font-size: 26rpx;
+  line-height: 34rpx; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  margin-left: 20rpx;
+}
+.hover-btn{
+  position: fixed;
+  left: 20rpx;
+  bottom:20rpx;
+  width: 150rpx;
+  height: 150rpx;
+}
+.hover-btn image{
+  width: 150rpx;
+  height: 150rpx;
+}
+.modal-avatar{
+  width: 400rpx;
+  height: 400rpx;
+  display: block;
+  margin: 0 auto;
+}
+
+.contactMe{
+  padding-top: 15rpx;
+  color: red;
+}

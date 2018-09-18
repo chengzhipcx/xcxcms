@@ -1,0 +1,27 @@
+<view bindtouchstart="touchHide" bindtouchend="touchShow">
+  <view class="detail">
+    <view class="detail-box">
+        <text class="title">{{title}}</text>
+        <view>
+          <text class="time">{{date}}</text>
+          <text class="contactMeBtn" bindtap="modalTap">平常心cz</text>
+        </view>
+    </view>
+    <view class="content">
+      <image src="{{imgUrl}}" />
+      <text>{{content}}</text>
+    </view>
+  </view>
+</view>
+
+<!--<view class="hover-btn" catchtap="modalTap" hidden="{{btnHidden}}">
+  <image src="../../images/icon.png" />
+</view>-->
+
+<modal title="" confirm-text="关闭" hidden="{{modalHidden}}" no-cancel bindconfirm="modalHide">
+    <image class="modal-avatar" src="../../images/ewm.jpg" background-size="cover"></image>
+    
+    <view style="text-align: center" class="contactMe" bindtap="contactMe">
+        13695316318
+    </view>    
+</modal>

@@ -1,0 +1,69 @@
+.detail{
+    display: block;
+}
+.detail-box{
+    margin-top: 51rpx;
+    padding: 0 20rpx;
+}
+.title{
+    display: block;
+    font-size: 48rpx;
+    color: #000;
+    margin-bottom: 10rpx;
+    font-weight: 600;
+}
+.time{
+    display: inline;
+    font-size: 30rpx;
+    color: #888;
+}
+
+.contactMeBtn{
+    font-size: 29rpx;
+    color:#09bb07;
+    vertical-align:middle;
+    margin-left: 20rpx;
+}
+
+.content{
+    padding: 0 20rpx;
+    margin-top: 21rpx;
+}
+.content image{
+    display: block;
+    width: 100%;
+    height: 360rpx;
+}
+.content text{
+    display: block;
+    font-size: 34rpx;
+    color: #111;
+    line-height: 50rpx;
+    margin-top: 30rpx;
+}
+.hover-btn{
+  position: fixed;
+  left: 20rpx;
+  bottom:20rpx;
+  width: 150rpx;
+  height: 150rpx;
+}
+.hover-btn image{
+  width: 150rpx;
+  height: 150rpx;
+}
+.modal-avatar{
+  width: 400rpx;
+  height: 400rpx;
+  display: block;
+  margin: 0 auto;
+}
+
+.contactMe{
+  padding-top: 15rpx;
+  color: red;
+}
+/*
+.content text{
+    text-align: center;
+}*/

@@ -1,0 +1,44 @@
+<scroll-view scroll-y="true" class="container discovery" bindscrolltolower="lower" bindtouchstart="touchHide" bindtouchend="touchShow">
+<view touchstart="touchHide" touchend="touchShow">
+<swiper class="activity" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+   <block wx:for="{{imgUrls}}">
+        <swiper-item>
+            <image data-idx="{{index}}"  bindtap="swipclick" src="{{item}}" class="slide-image" width="355" height="155"/>
+        </swiper-item>
+    </block>
+</swiper>
+
+<view class="top-tab flex-wrp flex-tab" >
+    <view class="toptab flex-item {{currentNavtab==idx ? 'active' : ''}}" wx:for="{{navTab}}" wx:for-index="idx" wx:for-item="itemName" data-idx="{{idx}}" bindtap="switchTab">
+        {{itemName}}
+    </view>
+</view>
+
+
+<view class="ctnt0">
+  <block wx:for="{{notify}}" wx:for-index="idx" data-idx="{{idx}}" wx:for-item="itemNotify"  >
+  <view class="notify-item flex-wrp" bindtap="itemClick" data-id="{{itemNotify.id}}">
+      <view class="avatar flex-item">
+          <image src="{{itemNotify.imgurl}}"></image>
+      </view>
+      <view class="notify-content flex-item">
+          <text class="notify-title">{{itemNotify.title}}</text>
+          <text class="notity-detail">{{itemNotify.content}}</text>
+      </view>
+  </view>
+  </block>
+</view>
+</view>
+</scroll-view>
+
+<!-- <view class="hover-btn" catchtap="modalTap" hidden="{{btnHidden}}">
+  <image src="../../images/icon.png" />
+</view> -->
+
+<modal title="" confirm-text="关闭" hidden="{{modalHidden}}" no-cancel bindconfirm="modalHide">    
+    <image class="modal-avatar" src="../../images/ewm.jpg" background-size="cover"></image>
+    <view style="text-align: center" class="contactMe" bindtap="contactMe">
+        11111111111
+    </view>   
+</modal>
+       
