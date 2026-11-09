@@ -16,3 +16,6 @@ cms-server/cms/web/img/*
 # 系统文件
 .DS_Store
 Thumbs.db
+
+# Spring Boot 版运行时上传目录
+cms-server/cms-springboot/uploads/

@@ -1,0 +1,27 @@
+{
+  "description": "后台账号表（密码为 md5，仅云函数访问）",
+  "bsonType": "object",
+  "required": ["username", "password"],
+  "permission": {
+    "read": false,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": { "description": "ID" },
+    "username": {
+      "bsonType": "string",
+      "title": "用户名",
+      "minLength": 4,
+      "maxLength": 20
+    },
+    "password": {
+      "bsonType": "string",
+      "title": "密码（md5 32 位小写）",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "creattime": { "bsonType": "long", "title": "创建时间（毫秒时间戳）" },
+    "updatetime": { "bsonType": "long", "title": "更新时间（毫秒时间戳）" }
+  }
+}

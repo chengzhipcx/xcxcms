@@ -1,0 +1,19 @@
+{
+  "description": "后台登录 token（仅云函数访问，7 天有效）",
+  "bsonType": "object",
+  "required": ["token", "accountId", "expireAt"],
+  "permission": {
+    "read": false,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": { "description": "ID" },
+    "token": { "bsonType": "string", "title": "随机 token（32 位 hex）" },
+    "accountId": { "bsonType": "string", "title": "账号 _id" },
+    "username": { "bsonType": "string", "title": "用户名（冗余）" },
+    "creattime": { "bsonType": "long", "title": "签发时间（毫秒时间戳）" },
+    "expireAt": { "bsonType": "long", "title": "过期时间（毫秒时间戳）" }
+  }
+}

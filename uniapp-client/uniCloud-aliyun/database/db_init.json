@@ -1,0 +1,94 @@
+{
+  "description": "xcxcms 初始数据（与经典版 cms.sql 演示数据一致；时间统一为毫秒时间戳，图片字段留空待后台上传）",
+  "xcxcms-account": {
+    "data": [
+      {
+        "_id": "account-1",
+        "username": "13695316318",
+        "password": "e10adc3949ba59abbe56e057f20f883e",
+        "creattime": 1536640690000,
+        "updatetime": 1536640698000
+      }
+    ]
+  },
+  "xcxcms-type": {
+    "data": [
+      { "_id": "type-2", "title": "行业新闻", "weight": -3, "updatetime": null, "creattime": null },
+      { "_id": "type-1", "title": "通知公告", "weight": 0, "updatetime": null, "creattime": null },
+      { "_id": "type-3", "title": "网站教学", "weight": 2, "creattime": 1537182160000, "updatetime": 1537182160000 }
+    ]
+  },
+  "xcxcms-article": {
+    "data": [
+      {
+        "_id": "article-2",
+        "pid": "type-1",
+        "imgUrl": "",
+        "title": "cms小程序上线啦",
+        "content": "微信小程序版的cms系统 上线啦",
+        "weight": null,
+        "isBanner": false,
+        "creattime": null,
+        "updatetime": 1537181519000
+      },
+      {
+        "_id": "article-3",
+        "pid": "type-1",
+        "imgUrl": "",
+        "title": "haha",
+        "content": "2额太过分的不规范",
+        "weight": null,
+        "isBanner": true,
+        "creattime": 1537176252000,
+        "updatetime": 1537176252000
+      },
+      {
+        "_id": "article-4",
+        "pid": null,
+        "imgUrl": "",
+        "title": "网站教学",
+        "content": "11111111",
+        "weight": null,
+        "isBanner": true,
+        "creattime": 1537176316000,
+        "updatetime": 1537176316000
+      },
+      {
+        "_id": "article-5",
+        "pid": "type-2",
+        "imgUrl": "",
+        "title": "长城",
+        "content": "天高云淡，望断南飞雁，不到长城非好汉",
+        "weight": null,
+        "isBanner": false,
+        "creattime": 1537181624000,
+        "updatetime": 1537181624000
+      },
+      {
+        "_id": "article-6",
+        "pid": null,
+        "imgUrl": "",
+        "title": "bannerimg1",
+        "content": "1111111111111",
+        "weight": null,
+        "isBanner": true,
+        "creattime": 1537182138000,
+        "updatetime": 1537182138000
+      },
+      {
+        "_id": "article-7",
+        "pid": "type-3",
+        "imgUrl": "",
+        "title": "网络课堂开课了",
+        "content": "开课啦开课啦开课啦",
+        "weight": null,
+        "isBanner": false,
+        "creattime": 1537182216000,
+        "updatetime": 1537182216000
+      }
+    ]
+  },
+  "xcxcms-token": {
+    "data": []
+  }
+}

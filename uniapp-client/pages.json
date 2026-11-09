@@ -1,0 +1,48 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "cms资讯",
+        "enablePullDownRefresh": true,
+        "backgroundTextStyle": "dark"
+      }
+    },
+    {
+      "path": "pages/article/detail",
+      "style": {
+        "navigationBarTitleText": "文章详情"
+      }
+    },
+    {
+      "path": "pages/admin/login",
+      "style": {
+        "navigationBarTitleText": "后台登录"
+      }
+    },
+    {
+      "path": "pages/admin/articles",
+      "style": {
+        "navigationBarTitleText": "文章管理"
+      }
+    },
+    {
+      "path": "pages/admin/edit",
+      "style": {
+        "navigationBarTitleText": "编辑文章"
+      }
+    },
+    {
+      "path": "pages/admin/types",
+      "style": {
+        "navigationBarTitleText": "分类管理"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarBackgroundColor": "#000000",
+    "navigationBarTitleText": "cms系统",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  }
+}

@@ -14,6 +14,11 @@
 
 **已通过端到端验证**：登录鉴权 · CRUD · 图片上传 · 安全加固 · 单元测试 · 界面截图核验
 
+> **本分支（`uniapp`）为 uni-app + uniCloud Serverless 实现**：`uniapp-client/` 是 uni-app 客户端
+> （可编译到微信小程序 / H5 / App），后台全部由 uniCloud 云对象 + 云数据库承担——**无需任何服务器和 MySQL**。
+> master 分支保留传统 Spring MVC 版本；三者的业务规则、页面与演示数据保持一致。
+> 详见下方 [uni-app + uniCloud 版本](#uni-app--unicloud-版本)。
+
 </div>
 
 ---
@@ -30,6 +35,7 @@
 - [生产部署](#生产部署)
 - [构建与测试](#构建与测试)
 - [常见问题](#常见问题)
+- [uni-app + uniCloud 版本](#uni-app--unicloud-版本)
 - [完善说明](#完善说明)
 
 ## 界面预览
@@ -56,6 +62,12 @@ xcxcms
 │   ├── web/WEB-INF/lib/        离线 jar（Eclipse 老工程方式使用；Maven 构建不打包）
 │   └── pom.xml                 Maven 构建配置（推荐）
 ├── cms.sql                     MySQL 初始化脚本（建库 + 表 + 演示数据 + 索引）
+├── uniapp-client/              uni-app + uniCloud Serverless 版本（本分支新增）
+│   ├── pages/                  首页 / 详情 + 内置后台管理（登录·文章·分类·改密）
+│   ├── uniCloud-aliyun/
+│   │   ├── cloudfunctions/     云对象 api（公开接口）/ admin（token 鉴权管理端）
+│   │   └── database/           集合 schema + db_init.json 种子数据（与 cms.sql 同款）
+│   └── static/                 静态资源（公众号名片图）
 ├── docs/
 │   ├── CHANGELOG.md            完善记录（修复/加固/功能/工程化明细）
 │   └── screenshots/            后台界面截图
@@ -247,6 +259,62 @@ Spring 4.x 只支持 `javax.*` 命名空间，请使用 Tomcat 8/9。
 
 Eclipse：导入 `cms-server/cms` 已有工程（`.project`/`.classpath` 保留，依赖在 `web/WEB-INF/lib/`）。IDEA：直接打开目录识别 `pom.xml` 即可。
 </details>
+
+## uni-app + uniCloud 版本
+
+`uniapp-client/` 是本分支新增的 **Serverless 实现**：客户端用 uni-app（Vue 语法，一套代码编译到微信小程序 / H5 / App），后台用 uniCloud 云对象 + 云数据库——**不再需要 Java 服务器和 MySQL**，也没有运维成本。
+
+### 架构对照
+
+| | 经典版（master） | uniCloud 版（本分支） |
+| --- | --- | --- |
+| 客户端 | 微信小程序原生框架 | uni-app（Vue） |
+| 后端 | Spring MVC + MyBatis（外置 Tomcat） | 云对象 `api` / `admin` |
+| 数据库 | MySQL `weichatarticle` | 云数据库集合 `xcxcms-*`（MongoDB 风格） |
+| 图片存储 | 服务器磁盘 | uniCloud 云存储（`cloud://` fileID） |
+| 管理端 | JSP 后台 | 同一小程序内的管理页（免部署） |
+| 费用 | 服务器 + 带宽 | uniCloud 免费额度即可运行 |
+
+业务规则保持一致：分类按权重升序（未设权重的按时间倒序垫底）、列表每页 15 条、简介预览 50 字（emoji 不截半）、轮播图无分类、账号密码 md5 存储（默认 `13695316318` / `123456`）。
+
+### 运行步骤（HBuilderX）
+
+1. **导入项目**：HBuilderX → 文件 → 导入 → 从本地目录导入 `uniapp-client/`
+2. **创建 uniCloud 空间**：右键 `uniCloud-aliyun` → 关联云服务空间（没有则按向导创建，阿里云版有免费额度）
+3. **初始化数据库**：右键 `uniCloud-aliyun/database` → 初始化云数据库（写入 4 个集合 schema 与 `db_init.json` 种子数据）
+4. **上传云函数**：右键 `cloudfunctions/api` → 上传部署；再对 `cloudfunctions/admin` 执行一次
+5. **运行**：运行 → 运行到小程序模拟器 → 微信开发者工具（或运行到浏览器）
+
+### 内置管理端
+
+首页右下角「**管理**」进入登录页，账号与经典版相同（`13695316318` / `123456`），功能包括：
+
+- 文章管理：按分类筛选、分页、新增/编辑/删除，图片直接上传到云存储
+- 轮播图：编辑页打开「是否轮播图」开关即可
+- 分类管理：增删改、权重排序
+- 修改密码：原密码校验，改后全部登录态失效（token 吊销）
+
+### 云对象接口
+
+| 云对象 | 方法 | 说明 |
+| --- | --- | --- |
+| `api` | `getBanners()` | 轮播图列表 |
+| `api` | `getTypes()` | 分类列表（权重升序） |
+| `api` | `getArticles({typeId, page})` | 分类文章分页（15 条/页） |
+| `api` | `getArticle({id})` | 文章详情（不存在返回 `errCode: 404`） |
+| `admin` | `login({username, password})` | 登录，返回 7 天有效 token |
+| `admin` | `listTypes` / `saveType` / `deleteType` | 分类管理 |
+| `admin` | `listArticles` / `getArticle` / `addArticle` / `updateArticle` / `deleteArticle` | 文章管理 |
+| `admin` | `changePassword({oldPassword, newPassword})` | 改密（成功后吊销全部 token） |
+
+> `admin` 所有方法均校验 token；`api` 为公开只读接口。返回统一信封 `{errCode, errMsg, data}`。
+
+### 验证情况
+
+- JSON（manifest/pages/schemas/db_init）与云对象 JS 语法全部通过 `node --check` / JSON 校验
+- 用 uniCloud 内存模拟器加载**真实云对象源码**做功能测试：**32 项断言全部通过**（种子数据、权重 `$ifNull` 排序、分页、轮播图、登录/token 签发与吊销、文章与分类 CRUD、参数校验、改密流程）
+- 测试中发现并修复 1 处真实缺陷：文章部分更新时未提交的 `isBanner`/`pid` 会被默认值覆盖
+- 小程序端页面（.vue）与 uniCloud 真实环境的联调需在 HBuilderX 中进行（本机无该工具链）
 
 ## 完善说明
 

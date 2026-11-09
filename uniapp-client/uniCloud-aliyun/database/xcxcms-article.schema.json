@@ -1,0 +1,42 @@
+{
+  "description": "文章表（含轮播图，客户端只读，写入走 admin 云对象）",
+  "bsonType": "object",
+  "required": ["title", "isBanner"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": { "description": "ID" },
+    "pid": {
+      "bsonType": ["string", "null"],
+      "title": "所属分类 _id（轮播图为 null）"
+    },
+    "imgUrl": {
+      "bsonType": "string",
+      "title": "封面图（uniCloud 存储 fileID 或完整 URL，可为空）"
+    },
+    "title": {
+      "bsonType": "string",
+      "title": "标题",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "content": {
+      "bsonType": "string",
+      "title": "正文"
+    },
+    "weight": {
+      "bsonType": ["int", "long", "double", "null"],
+      "title": "权重（数字越小越靠前，空则按时间排序）"
+    },
+    "isBanner": {
+      "bsonType": "bool",
+      "title": "是否轮播图"
+    },
+    "creattime": { "bsonType": "long", "title": "创建时间（毫秒时间戳）" },
+    "updatetime": { "bsonType": "long", "title": "更新时间（毫秒时间戳）" }
+  }
+}
