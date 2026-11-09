@@ -16,3 +16,11 @@ cms-server/cms/web/img/*
 # 系统文件
 .DS_Store
 Thumbs.db
+uploads/
+
+# Python
+cms-server/cms-fastapi/uploads/
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/

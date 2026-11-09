@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}文章管理 - CMS 后台管理{% endblock %}
+{% block nav_home %}active{% endblock %}
+{% block pagehead %}文章管理 <small>按分类维护文章列表</small>{% endblock %}
+
+{% block content %}
+<div class="box">
+    <div class="box-header with-border">
+        <form class="form-inline" onsubmit="return false;">
+            <label>分类：</label>
+            <select id="titleSelect" class="form-control" style="width: auto;" onchange="changeTitle()">
+                {% for t in titleList %}
+                <option value="{{ t.id }}" {% if topTitle and topTitle.id == t.id %}selected{% endif %}>{{ t.title|e }}</option>
+                {% endfor %}
+            </select>
+            <a class="btn btn-primary" style="margin-left: 12px;" href="{{ ctx }}/item/showArticleSave">＋ 增加文章</a>
+        </form>
+    </div>
+
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th style="width: 90px;">图片</th>
+                    <th style="width: 30%;">标题</th>
+                    <th>简介</th>
+                    <th style="width: 160px;">操作</th>
+                </tr>
+            </thead>
+            <tbody id="containner">
+                {% if not itemList %}
+                <tr class="empty-row"><td colspan="4">该分类下暂无文章，点击右上角「增加文章」创建</td></tr>
+                {% endif %}
+                {% for a in itemList %}
+                <tr>
+                    <td><img class="thumb" src="{{ ctx }}{{ a.imgurl }}" onerror="this.style.visibility='hidden'"></td>
+                    <td>{{ a.title|e }}</td>
+                    <td class="content-preview">{{ a.content|e if a.content else '' }}</td>
+                    <td>
+                        <a class="btn btn-default btn-xs" href="{{ ctx }}/item/showArticleSave?id={{ a.id }}">编辑</a>
+                        <button class="btn btn-danger btn-xs" onclick="deleteById({{ a.id }}, '{{ a.title|e }}')">删除</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="box-footer clearfix">
+        <span class="pull-left" style="line-height: 30px;">当前第 <font id="nowPage" class="text-red">1</font> 页</span>
+        <ul id="pageCntainner" class="pagination pagination-sm no-margin pull-right">
+            {% for i in range(1, totalCount + 1) %}
+            <li><a onclick="page({{ i }})">{{ i }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // 防 XSS：动态拼接 HTML 前先转义
+    function esc(s){
+        if (s == null) return "";
+        return String(s)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    function findByPid(pid, now){
+        $.get(
+                "{{ ctx }}/api/listById?id="+pid+"&now="+now,
+                function(data){
+                    var tbodyElement = $("#containner");
+                    tbodyElement.html("");
+
+                    if (data.list.length == 0){
+                        tbodyElement.html("<tr class='empty-row'><td colspan='4'>该分类下暂无文章，点击右上角「增加文章」创建</td></tr>");
+                    }
+
+                    for (var i = 0; i < data.list.length; i++) {
+                        var article = data.list[i];
+                        var trElement = "<tr>"
+                        trElement+="<td><img class='thumb' src='{{ ctx }}"+esc(article.imgurl)+"' onerror=\"this.style.visibility='hidden'\"/></td>";
+                        trElement+="<td>"+esc(article.title)+"</td>";
+                        trElement+="<td class='content-preview'>"+esc(article.content)+"</td>";
+                        trElement+="<td><a class='btn btn-default btn-xs' href='{{ ctx }}/item/showArticleSave?id="+article.id+"'>编辑</a> ";
+                        var deleteBtn = "deleteById("+article.id+", '"+esc(article.title)+"')";
+                        trElement+= "<button class='btn btn-danger btn-xs' onclick=\""+deleteBtn+"\">删除</button></td>";
+                        tbodyElement.append(trElement);
+                    }
+
+                    var pageElement = $("#pageCntainner");
+                    pageElement.html("");
+                    for (var i=1; i<= data.pageCount;i++){
+                        pageElement.append("<li class='"+(i==now?"active":"")+"'><a onclick='page("+i+")'>"+i+"</a></li>");
+                    }
+                    document.getElementById("nowPage").innerHTML = now;
+                }
+        );
+    }
+
+    function changeTitle(){
+        findByPid(document.getElementById("titleSelect").value, 1);
+    }
+
+    function deleteById(id, title){
+        var isDelete = window.confirm("确定删除「"+title+"」吗？");
+        if (isDelete){
+            window.location.href = "{{ ctx }}/item/deleteById?id="+id+"&pid="+document.getElementById("titleSelect").value;
+        }
+    }
+
+    findByPid(document.getElementById("titleSelect").value, 1);
+
+    function page(now){
+        findByPid(document.getElementById("titleSelect").value, now);
+        document.getElementById("nowPage").innerHTML = now;
+    }
+</script>
+{% endblock %}

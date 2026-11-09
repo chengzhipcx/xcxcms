@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>{% block title %}CMS 后台管理{% endblock %}</title>
+    <link rel="stylesheet" href="{{ ctx }}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ ctx }}/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="{{ ctx }}/css/blue.css">
+    <link rel="stylesheet" href="{{ ctx }}/css/index.css">
+    <script src="{{ ctx }}/js/jquery-2.2.3.min.js"></script>
+    <script src="{{ ctx }}/js/bootstrap.min.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header">
+        <a href="{{ ctx }}/home" class="logo">
+            <span class="logo-mini"><b>C</b>MS</span>
+            <span class="logo-lg"><b>CMS</b> 后台管理</span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="ico">👤</i>
+                            <span class="hidden-xs">{{ account.username if account else '未登录' }}</span>
+                            <i class="caret"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header" style="text-align:center;">{{ account.username if account else '' }}</li>
+                            <li><a href="{{ ctx }}/user/home"><i class="ico">🔑</i> 账号管理 / 修改密码</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ ctx }}/user/logout"><i class="ico">🚪</i> 退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="header">内容管理</li>
+                <li class="{% block nav_home %}{% endblock %}">
+                    <a href="{{ ctx }}/home"><i class="ico">📝</i><span>文章管理</span></a>
+                </li>
+                <li class="{% block nav_banner %}{% endblock %}">
+                    <a href="{{ ctx }}/banner/home"><i class="ico">🖼️</i><span>轮播图管理</span></a>
+                </li>
+                <li class="{% block nav_type %}{% endblock %}">
+                    <a href="{{ ctx }}/type/home"><i class="ico">🗂️</i><span>分类管理</span></a>
+                </li>
+                <li class="header">系统设置</li>
+                <li class="{% block nav_user %}{% endblock %}">
+                    <a href="{{ ctx }}/user/home"><i class="ico">👤</i><span>账号管理</span></a>
+                </li>
+            </ul>
+        </section>
+    </aside>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>{% block pagehead %}{% endblock %}</h1>
+        </section>
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <strong>xcxcms</strong> &middot; 微信小程序 CMS 后台 &middot; <a href="https://codercheng.xyz" target="_blank">官网 codercheng.xyz</a>
+    </footer>
+</div>
+</body>
+</html>

@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  java:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,6 +17,20 @@ jobs:
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
-      - name: Build and test
+      - name: Build and test (Spring MVC)
         working-directory: cms-server/cms
         run: mvn -B -ntp clean package
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r cms-server/cms-fastapi/requirements.txt
+      - name: Test FastAPI
+        working-directory: cms-server/cms-fastapi
+        run: python -m pytest tests -q

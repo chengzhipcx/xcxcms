@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>出错了</title>
+    <link rel="stylesheet" href="{{ ctx }}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ ctx }}/css/index.css">
+</head>
+<body style="background-color: #f5f5f5;">
+    <div class="error-page-wrap">
+        <div class="code">:-(</div>
+        <h2>页面开小差了</h2>
+        <p>
+            {% if status == 404 %}
+            您访问的页面不存在（404）
+            {% else %}
+            服务器开小差了，请稍后重试（500）
+            {% endif %}
+        </p>
+        <p style="margin-top: 20px;">
+            <a class="btn btn-primary" href="{{ ctx }}/admin">返回后台登录</a>
+        </p>
+    </div>
+</body>
+</html>

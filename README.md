@@ -14,6 +14,12 @@
 
 **已通过端到端验证**：登录鉴权 · CRUD · 图片上传 · 安全加固 · 单元测试 · 界面截图核验
 
+> **本分支（`fastapi`）新增 Python FastAPI 版本后端**（`cms-server/cms-fastapi/`）：
+> FastAPI + SQLAlchemy + PyMySQL + Jinja2，复用同一个 MySQL 库（`cms.sql` 直接初始化）、
+> 同一套 AdminLTE 管理页面，小程序接口路径与响应形态逐字节一致。
+> master 分支保留传统 Spring MVC 版本；`springboot` 分支为 Spring Boot 版；`uniapp` 分支为 uni-app + uniCloud Serverless 版。
+> 详见下方 [Python FastAPI 版本](#python-fastapi-版本)。
+
 </div>
 
 ---
@@ -30,6 +36,7 @@
 - [生产部署](#生产部署)
 - [构建与测试](#构建与测试)
 - [常见问题](#常见问题)
+- [Python FastAPI 版本](#python-fastapi-版本)
 - [完善说明](#完善说明)
 
 ## 界面预览
@@ -56,6 +63,9 @@ xcxcms
 │   ├── web/WEB-INF/lib/        离线 jar（Eclipse 老工程方式使用；Maven 构建不打包）
 │   └── pom.xml                 Maven 构建配置（推荐）
 ├── cms.sql                     MySQL 初始化脚本（建库 + 表 + 演示数据 + 索引）
+├── cms-server/cms-fastapi/     Python FastAPI 版本后端（本分支新增）
+│   ├── app/                    FastAPI 应用（路由 / Jinja2 模板 / 静态资源）
+│   └── tests/                  pytest 单元测试
 ├── docs/
 │   ├── CHANGELOG.md            完善记录（修复/加固/功能/工程化明细）
 │   └── screenshots/            后台界面截图
@@ -247,6 +257,52 @@ Spring 4.x 只支持 `javax.*` 命名空间，请使用 Tomcat 8/9。
 
 Eclipse：导入 `cms-server/cms` 已有工程（`.project`/`.classpath` 保留，依赖在 `web/WEB-INF/lib/`）。IDEA：直接打开目录识别 `pom.xml` 即可。
 </details>
+
+## Python FastAPI 版本
+
+`cms-server/cms-fastapi/` 是本分支新增的 **Python 后端实现**：FastAPI + SQLAlchemy 2.0 + PyMySQL + Jinja2，
+直接复用经典版的 MySQL 库（先执行根目录 `cms.sql` 初始化即可）与全部 AdminLTE 管理页面（JSP → Jinja2 模板），
+小程序接口的路径与响应形态保持一致，客户端零改动。
+
+### 与经典版对照
+
+| | 经典版（master） | FastAPI 版（本分支） |
+| --- | --- | --- |
+| 语言/框架 | Java 8 · Spring MVC 4.3 | Python 3.9+ · FastAPI |
+| ORM | MyBatis | SQLAlchemy 2.0 |
+| 视图 | JSP + JSTL | Jinja2（同款 AdminLTE 界面） |
+| 会话 | Tomcat Session | 签名 Cookie（itsdangerous，30 分钟） |
+| 运行 | war 部署到 Tomcat | `uvicorn` 直接启动 |
+| 测试 | JUnit（7 用例） | pytest（9 用例） |
+
+安全特性全部移植：图片上传扩展名白名单、登录失败限流（5 次锁 10 分钟）、XSS 转义（Jinja2 自动转义 + AJAX 行 JS 转义）、账号管理守卫（不能删自己/最后一个账号）、修改密码后强制重登、404/500 友好错误页。
+
+### 运行步骤
+
+```bash
+cd cms-server/cms-fastapi
+python -m venv .venv
+.venv/Scripts/pip install -r requirements.txt     # macOS/Linux: .venv/bin/pip
+# 确认 MySQL 已执行 cms.sql 初始化（默认连接 root:123456@localhost:3306/weichatarticle）
+.venv/Scripts/python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+# 访问 http://localhost:8000/cms/
+```
+
+### 配置（环境变量）
+
+| 变量 | 默认值 | 说明 |
+| --- | --- | --- |
+| `CMS_DB_URL` | `mysql+pymysql://root:123456@localhost:3306/weichatarticle?charset=utf8mb4` | 数据库连接 |
+| `CMS_IP` | `http://localhost:8000/cms` | 对外地址（拼接图片完整 URL），线上改 https 域名 |
+| `CMS_PREFIX` | `/cms` | 上下文路径（与经典版一致，小程序端无需改动） |
+| `CMS_UPLOAD_DIR` | `./uploads` | 图片上传目录（应用外存储，`/cms/img/**` 自动映射） |
+| `CMS_SESSION_SECRET` | 开发默认值 | 会话签名密钥，**生产必须设置随机值** |
+
+### 验证情况
+
+- pytest 单元测试 9 项全过（MD5 标准向量 + 前导零回归、中文/emoji 截断、登录限流）
+- uvicorn 启动后端到端回归全过：登录/鉴权拦截（带 `/cms` 前缀）/ 四个小程序接口（字段名与 fastjson 形态逐字节一致、404 JSON）/ 后台 AJAX 分页 / 图片上传白名单拒绝 `.jsp` + 正常上传落盘并可经 `/img/**` 访问 / 修改密码全场景 / 账号增删与守卫 / 登录限流锁定 / 404 错误页 / UTF-8 字节级正确
+- 浏览器截图核验：AdminLTE 界面与经典版完全一致
 
 ## 完善说明
 
