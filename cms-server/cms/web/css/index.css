@@ -1,0 +1,89 @@
+@charset "utf-8";
+/*
+ * CMS 后台自定义样式（覆盖在 AdminLTE / Bootstrap 之上）
+ */
+
+body {
+    font-family: "Helvetica Neue", Helvetica, "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+}
+
+/* 侧边栏菜单图标（无 FontAwesome，用 emoji 代替） */
+.sidebar-menu .ico,
+.navbar .ico {
+    width: 24px;
+    display: inline-block;
+    text-align: center;
+    font-style: normal;
+}
+
+/* 文章缩略图 */
+.thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid #eee;
+}
+.thumb-banner {
+    width: 120px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid #eee;
+}
+
+/* 列表简介列 */
+.content-preview {
+    color: #999;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 空数据行 */
+.empty-row td {
+    text-align: center;
+    color: #999;
+    padding: 32px 0 !important;
+    font-size: 14px;
+}
+
+/* 内容标题旁的操作按钮 */
+.content-header .btn {
+    margin-left: 8px;
+}
+
+/* 表单内说明 */
+.help-inline {
+    color: #999;
+    margin-left: 8px;
+}
+
+/* 登录页 */
+.login-page {
+    background: linear-gradient(135deg, #3c8dbc 0%, #1f4568 60%, #152735 100%) !important;
+}
+.login-logo a {
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, .35);
+}
+.login-box-body {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .25);
+    border-radius: 4px;
+}
+.login-box-msg {
+    margin-bottom: 4px;
+}
+
+/* 错误页 */
+.error-page-wrap {
+    max-width: 480px;
+    margin: 80px auto 0;
+    text-align: center;
+    color: #555;
+}
+.error-page-wrap .code {
+    font-size: 72px;
+    color: #c1c1c1;
+}

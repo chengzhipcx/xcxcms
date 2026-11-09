@@ -1,0 +1,22 @@
+/**app.wxss**/
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: #fff;
+} 
+.flex-wrp{
+display: flex;
+}
+.flex-tab{
+flex-flow: row nowrap;
+justify-content: space-around;
+align-items: stretch;
+}
+.flex-item{
+flex-grow: 1;
+text-align: center;
+}
