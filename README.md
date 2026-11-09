@@ -254,4 +254,13 @@ Eclipse：导入 `cms-server/cms` 已有工程（`.project`/`.classpath` 保留�
 
 逐项明细见 [docs/CHANGELOG.md](docs/CHANGELOG.md)。
 
-> 原始项目作者：[chengzhipcx](https://github.com/chengzhipcx) · 本改进版本仅供学习交流使用
+> 本改进版本仅供学习交流使用
+
+## 关于作者
+
+- 个人网站：[codercheng.xyz](https://codercheng.xyz)
+- 微信公众号：**coder程**（微信搜一搜，或扫码关注）
+
+<p align="center">
+  <img src="docs/wechat-codercheng.png" width="560" alt="微信公众号：coder程">
+</p>

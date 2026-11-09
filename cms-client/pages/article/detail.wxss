@@ -60,11 +60,11 @@
   width: 150rpx;
   height: 150rpx;
 }
-.modal-avatar{
-  width: 400rpx;
-  height: 400rpx;
+.modal-gzh{
+  width: 560rpx;
   display: block;
   margin: 0 auto;
+  border-radius: 8rpx;
 }
 
 .contactMe{

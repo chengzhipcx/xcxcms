@@ -62,8 +62,8 @@ Page({
         btnHidden: false
     })
   },
-  contactMe: function(event) {
-    wx.makePhoneCall({phoneNumber: '4000668566'})
+  copyWebsite: function (event) {
+    wx.setClipboardData({ data: 'https://codercheng.xyz' })
   },
   onShareAppMessage: function () {
     return {

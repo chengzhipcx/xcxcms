@@ -32,3 +32,12 @@ cms-client
 见项目根 README「小程序数据接口」一节：`/api/list`、`/api/listApiType`、`/api/listApiArticle`、`/api/findByIdApi`。
 
 > 每页条数与后台 `ConstantPool.API_PAGE_SIZE = 15` 保持一致，如需调整请两端同步修改。
+
+## 关于作者
+
+- 个人网站：[codercheng.xyz](https://codercheng.xyz)
+- 微信公众号：**coder程**（微信搜一搜，或扫码关注）
+
+<p align="center">
+  <img src="../docs/wechat-codercheng.png" width="480" alt="微信公众号：coder程">
+</p>
