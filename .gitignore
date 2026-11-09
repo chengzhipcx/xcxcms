@@ -12,6 +12,7 @@ target/
 logs/
 cms-server/cms/web/img/*
 !cms-server/cms/web/img/icon-anhui.png
+cms-server/cms-springboot/uploads/
 
 # 系统文件
 .DS_Store

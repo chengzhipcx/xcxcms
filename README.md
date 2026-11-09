@@ -14,6 +14,10 @@
 
 **已通过端到端验证**：登录鉴权 · CRUD · 图片上传 · 安全加固 · 单元测试 · 界面截图核验
 
+> **本分支（`springboot`）在传统版本之外新增了 Spring Boot 版本后台**（`cms-server/cms-springboot/`）：
+> 内嵌 Tomcat、`java -jar` 一键启动，业务逻辑、后台页面与小程序接口与 master 完全一致，共用同一数据库。
+> master 分支保留传统 Spring MVC + 外置 Tomcat 形态，两者可对照使用。
+
 </div>
 
 ---
@@ -55,6 +59,11 @@ xcxcms
 │   ├── web/                    JSP 页面、静态资源、上传目录 img/
 │   ├── web/WEB-INF/lib/        离线 jar（Eclipse 老工程方式使用；Maven 构建不打包）
 │   └── pom.xml                 Maven 构建配置（推荐）
+├── cms-server/cms-springboot/  Java 后台 Spring Boot 版本（本分支新增）
+│   ├── src/main/java/          启动类 + 同一套业务代码（config/ 为 Boot 适配层）
+│   ├── src/main/resources/     application.yml、mapper xml、静态资源
+│   ├── src/main/webapp/        JSP 页面（与经典版相同）
+│   └── uploads/                图片上传目录（运行时生成，应用外存储，重启不丢）
 ├── cms.sql                     MySQL 初始化脚本（建库 + 表 + 演示数据 + 索引）
 ├── docs/
 │   ├── CHANGELOG.md            完善记录（修复/加固/功能/工程化明细）
@@ -101,6 +110,32 @@ mysql -uroot -p < cms.sql
 | `cms-client/app.js` | `ROOT_URL` | 小程序请求的后台地址，与上一致（末尾带 `/`） |
 
 ### ③ 构建并启动
+
+**方式一：Spring Boot 版（本分支新增，推荐）**
+
+```bash
+cd cms-server/cms-springboot
+mvn clean package
+java -jar target/cms-boot.war
+```
+
+内嵌 Tomcat，无需安装/配置外置 Tomcat。访问 **http://localhost:8080/cms/** 进入后台。
+
+<details>
+<summary>Spring Boot 版配置项（<code>application.yml</code>）</summary>
+
+| 配置 | 默认值 | 说明 |
+| --- | --- | --- |
+| `server.port` | `8080` | 端口 |
+| `server.servlet.context-path` | `/cms` | 上下文路径（与经典版一致，小程序端无需改动） |
+| `spring.datasource.*` | `localhost:3306/weichatarticle` | MySQL 连接 |
+| `app.ip` | `http://localhost:8080/cms` | 对外地址，拼接图片完整 URL；线上改 https 域名 |
+| `app.upload-dir` | `uploads` | 图片上传目录（应用外存储，重启不丢，`/img/**` 自动映射） |
+| `server.servlet.session.timeout` | `30m` | 后台会话超时 |
+
+</details>
+
+**方式二：经典版（外置 Tomcat war）**
 
 ```bash
 cd cms-server/cms
@@ -203,12 +238,15 @@ HTTP 404  {"error": "article not found"}
 ## 构建与测试
 
 ```bash
-cd cms-server/cms
-mvn clean package     # 编译 + 单元测试（7 个用例）+ 打 war
-mvn test              # 仅跑测试：Md5UtilsTest / TextUtilsTest
+cd cms-server/cms              # 经典版
+mvn clean package              # 编译 + 单元测试（7 个用例）+ 打 war
+
+cd cms-server/cms-springboot   # Spring Boot 版（本分支）
+mvn clean package              # 同一套单测，产物为可执行 war
+java -jar target/cms-boot.war  # 直接启动
 ```
 
-CI：GitHub Actions 在 JDK 8 / 17 矩阵下执行 `mvn -B clean package`（推送后生效，见 `.github/workflows/ci.yml`）。
+CI：GitHub Actions 在 JDK 8 / 17 矩阵下构建两个版本（推送后生效，见 `.github/workflows/ci.yml`）。
 
 ## 常见问题
 
